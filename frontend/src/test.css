@@ -1,0 +1,124 @@
+.container {
+    display: grid;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40em;
+    height: 28em;
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .image {
+    content: url('../public/image-product-desktop.jpg');
+    width: 20em;
+    height: 28em;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  
+  .description {
+    background-color: var(--white);
+    padding: 2em;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  
+  .description > span {
+    letter-spacing: 0.9em;
+    color: var(--very-dark-blue);
+  }
+  
+  .description > p {
+    font-size: 14px;
+    color: var(--very-dark-blue);
+  }
+  
+  .description > h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    color: var(--very-dark-blue);
+    margin-top: 0.5em;
+  }
+  
+  .price > .current {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--dark-cyan);
+  }
+  
+  .price > strike {
+    margin-left: 0.4em;
+    font-size: 14px;
+    color: var(--dark-grayish-blue);
+  }
+  
+  .cart-button {
+    padding: 1.2em 8em;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--dark-cyan);
+    color: var(--white);
+    transition: background-color 0.3s ease-out;
+  }
+  
+  .cart-button:hover {
+    background-color: var(--very-dark-blue);
+  }
+  
+  @media only screen and (max-width: 1440px) {
+    .container {
+      width: 30em;
+      height: 20em;
+    }
+  
+    .image {
+      width: 15em;
+      height: 22.4em;
+    }
+  
+    .description > h1 {
+      font-size: 1.4em;
+    }
+  
+    .description {
+      padding: 1em;
+    }
+  
+    .price > current {
+      font-size: 1.2em;
+    }
+  
+    .price > strike {
+      font-size: 12px;
+    }
+  
+    .cart-button {
+      padding: 1em 4em;
+    }
+  }
+  
+  @media only screen and (max-width: 375px) {
+    .container {
+      width: 20em;
+      height: 16em;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr;
+    }
+  
+    .image {
+      content: url('../public/image-product-mobile.jpg');
+      width: 20em;
+      height: 15em;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+    }
+  
+    .description {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+  }
