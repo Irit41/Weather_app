@@ -10,6 +10,6 @@ import CloudsWithRain from "./CloudsWithRain.jsx";
 //<App />
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App/>
+    <App />
 =  </React.StrictMode>
 );

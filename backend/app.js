@@ -2,14 +2,13 @@ const axios = require('axios');
 const geoip = require('geoip-lite');
 const express = require('express')
 const cors = require('cors')
-const bodyParser = require('body-parser')
 const app = express()
 const port = 4000
 app.use(cors())
 var corsOptions = {
     origin: '*',
     credentials: true,
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+    optionsSuccessStatus: 200 
   }
 
 
@@ -30,20 +29,21 @@ async function getLocation() {
 
 
 
-async function fetchDataFromSecondAPI(dataFromFirstAPI) {
+async function fetchDataFromWeatherAPI(myLocationChord) {
   try {
-    const { ll } = dataFromFirstAPI;
+    const { ll } = myLocationChord;
     const [latitude, longitude] = ll;
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&lang=he&units=metric&appid=32aba94e40f3ab89efba08b0a0588488`;
     const response = await axios.get(url);
-    const { weather , main, name } = response.data;
+    const { weather , main, name : city_name } = response.data;
     const { temp, feels_like ,humidity} = main;
     const { description:weatherdesc} = weather[0];
 
 
-    return [name, weatherdesc,temp,humidity, feels_like ];
+    return [city_name, weatherdesc,temp,humidity, feels_like ];
   } catch (error) {
-    throw new Error(`Error fetching data from second API: ${error.message}`);
+    
+    throw new Error(`Error fetching data from weather API: ${error.message}`);
   }
 }
 
@@ -55,9 +55,9 @@ app.get('/', cors(corsOptions), (req, res) => {
   try {
    const myLocationChord = await getLocation();
 
-     const dataFromSecondAPI = await fetchDataFromSecondAPI(myLocationChord);
-    res.send(dataFromSecondAPI)
-    console.log(dataFromSecondAPI);
+     const weatherData = await fetchDataFromWeatherAPI(myLocationChord);
+    res.send(weatherData)
+    console.log(weatherData);
   } catch (error) {
     console.error('Error:', error.message);
   }
@@ -66,5 +66,5 @@ app.get('/', cors(corsOptions), (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Weather app listening on port ${port}`)
   })

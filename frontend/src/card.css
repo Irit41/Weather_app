@@ -3,7 +3,6 @@
     height: 235px;
     position: relative;
     padding: 25px;
-    background: radial-gradient(178.94% 106.41% at 26.42% 106.41%, #FFF7B1 0%, rgba(255, 255, 255, 0) 71.88%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #FFFFFF;
     box-shadow: 0px 155px 62px rgba(0, 0, 0, 0.01), 0px 87px 52px rgba(0, 0, 0, 0.05), 0px 39px 39px rgba(0, 0, 0, 0.09), 0px 10px 21px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
     border-radius: 23px;
     transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
@@ -86,6 +85,17 @@
     z-index: 5;
   }
   
+  /* .sun {
+    width: 120px;
+    height: 120px;
+    background: -webkit-linear-gradient(to right, #fcbb04, #fffc00);
+    background: linear-gradient(to right, #fcbb04, #fffc00);
+    border-radius: 60px;
+    /* align-self: center;
+    margin: auto;
+    
+    display: flex; */
+  /* } */ 
   .sun {
     width: 120px;
     height: 120px;
@@ -95,12 +105,22 @@
     align-self: center;
     display: inline;
     position: absolute;
+    bottom: 50%;
   }
-  
+ .sun-wrep{
+  align-self: center;
+  margin: auto;
+  justify-content: center;
+  display: flex;
+ }
   .sunshine {
     animation: sunshines 2s infinite;
+   
   }
-  
+  /* .sunshine {
+    animation: sunshines 2s infinite;
+  }
+   */
   @keyframes sunshines {
     0% {
       transform: scale(1);
@@ -130,6 +150,7 @@
   .card-header {
     display: flex;
     align-self: flex-start;
+    background-color: #ffffff;
     /* text-align: right;
  
     justify-content: right; */
@@ -139,6 +160,7 @@
   
   .card-header span:first-child {
     word-break: break-all;
+    background-color: #ffffff;
     font-weight: 800;
     font-size: 15px;
     line-height: 135%;
@@ -147,6 +169,7 @@
   
   .card-header span:last-child {
     font-weight: 700;
+    background-color: #ffffff;
     font-size: 15px;
     line-height: 135%;
     color: rgba(87, 77, 51, 0.33);
@@ -154,6 +177,7 @@
   
   .temp {
     position: absolute;
+    
     left: 25px;
     bottom: 12px;
     font-weight: 700;
