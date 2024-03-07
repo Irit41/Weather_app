@@ -18,7 +18,7 @@ async function getLocation() {
   try {
     const response = await axios.get('https://ipinfo.io/json');
     const { ip } = response.data;
-    console.log(ip);
+    // console.log(ip);
     const geo = geoip.lookup(ip);
      return geo;
   } catch (error) {
@@ -26,7 +26,19 @@ async function getLocation() {
   }
 }
 
-
+const fetchCoordinates = async () => {
+  try {
+    const response = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${cityName}`);
+    if (response.data && response.data.length > 0) {
+      const { lat, lon } = response.data[0];
+      setCoordinates({ latitude: lat, longitude: lon });
+    } else {
+      console.log('City not found');
+    }
+  } catch (error) {
+    console.error('Error fetching coordinates:', error);
+  }
+};
 
 
 async function fetchDataFromWeatherAPI(myLocationChord) {
@@ -34,11 +46,12 @@ async function fetchDataFromWeatherAPI(myLocationChord) {
     const { ll } = myLocationChord;
     const [latitude, longitude] = ll;
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&lang=he&units=metric&appid=32aba94e40f3ab89efba08b0a0588488`;
+    console.log(ll);
     const response = await axios.get(url);
     const { weather , main, name : city_name } = response.data;
     const { temp, feels_like ,humidity} = main;
     const { description:weatherdesc} = weather[0];
-
+    
 
     return [city_name, weatherdesc,temp,humidity, feels_like ];
   } catch (error) {
@@ -57,7 +70,20 @@ app.get('/', cors(corsOptions), (req, res) => {
 
      const weatherData = await fetchDataFromWeatherAPI(myLocationChord);
     res.send(weatherData)
-    console.log(weatherData);
+    // console.log(weatherData);
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+})();
+
+})
+app.get('/', cors(corsOptions), (req, res) => {
+(async () => {
+  try {
+   const temp = await fetchCoordinates();
+
+    res.send(temp)
+    // console.log(weatherData);
   } catch (error) {
     console.error('Error:', error.message);
   }

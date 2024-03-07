@@ -49,6 +49,10 @@ export default function App() {
       throw new Error(`Error fetching location: ${error.message}`);
     }
   }
+
+
+
+  https://maps.googleapis.com/maps/api/js?key=AIzaSyBWbD-D4rv1qWfDoidHqG9hR809N4VpB58&loading=async&libraries=places&callback=initMap
   return (
     <div>
       <DarkNavbar />

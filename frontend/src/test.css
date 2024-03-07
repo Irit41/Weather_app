@@ -1,4 +1,45 @@
-.container {
+/* 
+
+
+
+body {
+  direction: rtl;
+  text-align: right;
+}
+form {
+  margin-top: 2em;
+  .form-field {
+    padding: 0.5em 2em;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .container {
     display: grid;
     position: absolute;
     top: 50%;
@@ -121,4 +162,4 @@
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
     }
-  }
+  } */ 

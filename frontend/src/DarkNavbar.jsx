@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Navbar,
   Typography,
@@ -8,6 +10,50 @@ import {
 import { BellIcon, Cog6ToothIcon } from "@heroicons/react/24/solid";
 
 export function DarkNavbar() {
+  const [cities, setCities] = useState([]);
+  const [selectedCity, setSelectedCity] = useState("");
+
+  const api_url = "https://data.gov.il/api/3/action/datastore_search";
+  const cities_resource_id = "5c78e9fa-c2e2-4771-93ff-7f400a12f7ba";
+  const city_name_key = "שם_ישוב";
+  const cities_data_id = "cities-data";
+
+  useEffect(() => {
+    populateDataList(cities_data_id, cities_resource_id, city_name_key);
+  }, [selectedCity]);
+
+  const getData = async (resource_id, q = "", limit = "100") => {
+    try {
+      const response = await axios.get(api_url, {
+        params: { resource_id, q, limit },
+        responseType: "json",
+      });
+      return response.data.result.records;
+    } catch (error) {
+      console.log("Error fetching data:", error);
+      return [];
+    }
+  };
+  const parseResponse = (records = [], field_name) => {
+    return records.map((record) => record[field_name].trim());
+  };
+  // const populateDataList = async (id, resource_id, field_name, query = "", limit = "32000") => {
+
+  const populateDataList = async (
+    id,
+    resource_id,
+    field_name,
+    query = "",
+    limit = "32000"
+  ) => {
+    const data = await getData(resource_id, query, limit);
+    const parsedData = parseResponse(data, field_name);
+    setCities(parsedData);
+  };
+
+  const handleCityChange = (event) => {
+    setSelectedCity(event.target.value);
+  };
   return (
     <Navbar
       variant="gradient"
@@ -35,25 +81,36 @@ export function DarkNavbar() {
           <Input
             type="search"
             color="white"
-            label="הקלד שם של עיר"
+            label="בחר עיר"
+            list="cities-data"
             className="pr-20"
+            onChange={handleCityChange}
+            value={selectedCity}
             containerProps={{
               className: "min-w-[450px]",
             }}
-          /> 
+          />
+          <datalist id="cities-data">
+          <option value="">טוען רשימת ערים...</option>
+          {cities.map((city, index) => (
+            <option key={index} value={city}>{city}</option>
+          ))}
+        </datalist>
+
           {/* <select id="city-choice"   className="min-w-[450px] pr-20 h-9" >
           <option value="">Select a city</option>
         
             <option>dfsdfsdf</option>
           
         </select> */}
-     
+
           <Button
             size="sm"
             color="white"
             className="!absolute right-1 top-0.4 bg-light-green-300 rounded"
+            onClick={()=>alert(selectedCity)}
           >
-           <h3> חפש</h3>
+            <h3> חפש</h3>
           </Button>
         </div>
       </div>
