@@ -3,24 +3,21 @@ import axios from "axios";
 import {
   Navbar,
   Typography,
-  IconButton,
-  Button,
   Input,
+  Button,
 } from "@material-tailwind/react";
-import { BellIcon, Cog6ToothIcon } from "@heroicons/react/24/solid";
 
-export function DarkNavbar() {
+export function DarkNavbar(props) {
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
 
   const api_url = "https://data.gov.il/api/3/action/datastore_search";
   const cities_resource_id = "5c78e9fa-c2e2-4771-93ff-7f400a12f7ba";
   const city_name_key = "שם_ישוב";
-  const cities_data_id = "cities-data";
 
   useEffect(() => {
-    populateDataList(cities_data_id, cities_resource_id, city_name_key);
-  }, [selectedCity]);
+    populateDataList(cities_resource_id, city_name_key);
+  }, []);
 
   const getData = async (resource_id, q = "", limit = "100") => {
     try {
@@ -30,17 +27,16 @@ export function DarkNavbar() {
       });
       return response.data.result.records;
     } catch (error) {
-      console.log("Error fetching data:", error);
+      console.error("Error fetching data:", error);
       return [];
     }
   };
+
   const parseResponse = (records = [], field_name) => {
     return records.map((record) => record[field_name].trim());
   };
-  // const populateDataList = async (id, resource_id, field_name, query = "", limit = "32000") => {
 
   const populateDataList = async (
-    id,
     resource_id,
     field_name,
     query = "",
@@ -54,6 +50,41 @@ export function DarkNavbar() {
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
   };
+
+  const fetchCoordinates = async () => {
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${selectedCity}`
+      );
+      if (response.data && response.data.length > 0) {
+        const { lat, lon } = response.data[0];
+        fetchWeather(lat, lon);
+      } else {
+        console.log("City not found");
+      }
+    } catch (error) {
+      console.error("Error fetching coordinates:", error);
+    }
+  };
+
+  const fetchWeather = async (lat, lon) => {
+    try {
+      const response = await axios.post("http://localhost:4000", {
+        latitude: lat,
+        longitude: lon,
+      });
+      const [city_name, weatherdesc, temp, humidity, feels_like] =
+        response.data;
+      props.SetCity(city_name);
+      props.SetWeatherdesc(weatherdesc);
+      props.SetTemp(Math.round(temp));
+      props.SetHumidity(humidity);
+      props.SetFeelslike(Math.round(feels_like));
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
   return (
     <Navbar
       variant="gradient"
@@ -69,14 +100,6 @@ export function DarkNavbar() {
         >
           Weather4me{" "}
         </Typography>
-        {/* <div className="ml-auto flex gap-1 md:mr-4">
-            <IconButton variant="text" color="white">
-              <Cog6ToothIcon className="h-4 w-4" />
-            </IconButton>
-            <IconButton variant="text" color="white">
-              <BellIcon className="h-4 w-4" />
-            </IconButton>
-          </div> */}
         <div className="relative flex w-full gap-20 md:w-max">
           <Input
             type="search"
@@ -91,24 +114,19 @@ export function DarkNavbar() {
             }}
           />
           <datalist id="cities-data">
-          <option value="">טוען רשימת ערים...</option>
-          {cities.map((city, index) => (
-            <option key={index} value={city}>{city}</option>
-          ))}
-        </datalist>
-
-          {/* <select id="city-choice"   className="min-w-[450px] pr-20 h-9" >
-          <option value="">Select a city</option>
-        
-            <option>dfsdfsdf</option>
-          
-        </select> */}
+            <option value="">טוען רשימת ערים...</option>
+            {cities.map((city, index) => (
+              <option key={index} value={city}>
+                {city}
+              </option>
+            ))}
+          </datalist>
 
           <Button
             size="sm"
             color="white"
             className="!absolute right-1 top-0.4 bg-light-green-300 rounded"
-            onClick={()=>alert(selectedCity)}
+            onClick={fetchCoordinates}
           >
             <h3> חפש</h3>
           </Button>
