@@ -52,7 +52,12 @@ export function DarkNavbar(props) {
   };
 
   const fetchCoordinates = async () => {
+    if (selectedCity==="לא רשום") {
+      setSelectedCity("")
+      return alert("לא נמצאה עיר נסה שוב")
+    }
     try {
+      
       const response = await axios.get(
         `https://nominatim.openstreetmap.org/search?format=json&q=${selectedCity}`
       );
@@ -60,10 +65,13 @@ export function DarkNavbar(props) {
         const { lat, lon } = response.data[0];
         fetchWeather(lat, lon);
       } else {
-        console.log("City not found");
+        alert("לא נמצאה עיר נסה שוב");
       }
     } catch (error) {
       console.error("Error fetching coordinates:", error);
+    }
+    finally{
+      setSelectedCity("")
     }
   };
 
