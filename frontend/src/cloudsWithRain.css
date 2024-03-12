@@ -2,39 +2,26 @@
     margin: 3em auto;
     width: 100px;
     height: 150px;
-    /* width: 350px;
-    height: 400px; */
+   
     position: relative;
   }
   
-  /* .cloud-main {
-    width: 350px;
-    height: 130px;
-    background: #ccc;
-    border-radius: 100em;
-    position: absolute;
-    z-index: 100;
-    top: 50px;
-    box-shadow: 0 3px 5px rgba(0,0,0, 0.3);
-    background: linear-gradient(#F2F2F2 70%, #E5E5E5);
-  }
-   */
+
   .cloud-center {
     width: 100px;
     height: 100px;
     margin: 0 auto;
-    background: #F2F2F2;
+    background: #c1c4c6;
     position: absolute;
     border-radius: 100em;
     top: -40px;
-    /* right: 65px; */
   }
   
   .cloud-left {
     width: 90px;
     height: 70px;
     margin: 0 auto;
-    background: #F2F2F2;
+    background: #c1c4c6;
     position: absolute;
     border-radius: 100em;
     top:-10px;
@@ -44,7 +31,6 @@
   .droplet {
     width: 10px;
     height: 20px;
-    background: radial-gradient(center, farthest-corner,  #A4DDF5, #f176ce);
     position: absolute;  
     border-radius: 10px 10px 10px 10px / 30px 30px 10px 10px;
     box-shadow: 0 1px 3px rgb(65, 63, 63);

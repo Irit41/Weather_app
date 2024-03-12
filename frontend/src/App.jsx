@@ -2,15 +2,13 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Typography,
-  Button,
+  Typography
 } from "@material-tailwind/react";
 import { DarkNavbar } from "./DarkNavbar";
 import axios from "axios";
 
 import "./App.css";
 import { useEffect, useState } from "react";
-// import "./tootest.css";
 import CloudsWithRain from "./CloudsWithRain";
 
 export default function App() {
@@ -22,7 +20,6 @@ export default function App() {
   useEffect(() => {
     fetchWeather();
   }, []);
-  //const currentDate = moment();
   const today = new Date();
 
   const dateHeb = today.toLocaleDateString("he-IL", {
@@ -119,7 +116,7 @@ export default function App() {
 const WeatherImg = ({ category }) => {
   return (
     <>
-      {category == "sun" ? (
+      {category === "sun" ? (
         <>
           <span className="sun sunshine"></span>
           <span className="sun"></span>
